@@ -1,67 +1,10 @@
 from dataclasses import dataclass
-from typing import List, Dict, Optional, Tuple
 from enum import Enum, auto
+from typing import Dict, List, Optional, Tuple
 
-Attributes = Dict[str, str]
-Address = Tuple[str, str]
+from client.data.objects import Connection, Node, Precision, Register
 
-@dataclass
-class Device:
-    ipv4_addresses: List[Address]
-    ipv6_addresses: List[Address]
-    name: str
-    type: str
-    attributes: Attributes
-
-
-@dataclass
-class Application:
-    name: str
-    type: str
-    attributes: Attributes
-
-
-@dataclass
-class Route:
-    network: str
-    dst: str
-    metric: int
-    prefix: Optional[int] = None
-    netmask: Optional[str] = None
-
-
-@dataclass
-class Node:
-    name: str
-    devices: List[Device]
-    applications: List[Application]
-    routing: List[Route]
-
-
-@dataclass
-class Connection:
-    name: str
-    type: str
-    interfaces: List[str]
-    attributes: Attributes
-
-
-@dataclass
-class Register:
-    value_name: str
-    type: str
-    source: str
-    start: str
-    file: str
-    end: Optional[str] = None
-    sink: Optional[str] = None
-
-
-class Precision(Enum):
-    NS = auto()
-    MS = auto()
-    S = auto()
-    H = auto()
+from client.xml.serialize import serialize_node, serialize_connections, serialize_registers
 
 
 @dataclass
@@ -73,6 +16,19 @@ class Model:
     nodes: List[Node]
     connections: List[Connection]
     registers: List[Register]
+
+    def convert_to_xml(self):
+        return '<?xml version="1.0" encoding="UTF-8"?>' + self._serialize()
+
+    def _serialize(self):
+        return f'<model name="{self.name}">' \
+            + f'<populate-routing-tables>{str(self.populate_tables).lower()}</populate-routing-tables>' \
+            + f'<duration>{self.duration}</duration>' \
+            + f'<precision>{self.precision.name}</precision>' \
+            + ''.join(map(serialize_node, self.nodes)) \
+            + serialize_connections(self.connections) \
+            + serialize_registers(self.registers) \
+            + '</model>'
 
 
 current_model = Model(

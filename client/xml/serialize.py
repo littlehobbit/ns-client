@@ -1,6 +1,6 @@
 from typing import List
 
-from client.data.model import *
+from client.data.objects import *
 
 
 def serialize_applications(apps: List[Application]):
@@ -95,18 +95,3 @@ def serialize_node(node: Node):
 
 def _serialize_precision(precision: Precision):
     return f'<precision>{precision.name}</precision>'
-
-
-def _serialize_model(model: Model):
-    return f'<model name="{model.name}">' \
-        + f'<populate-routing-tables>{str(model.populate_tables).lower()}</populate-routing-tables>' \
-        + f'<duration>{model.duration}</duration>' \
-        + f'<precision>{model.precision.name}</precision>' \
-        + ''.join(map(serialize_node, model.nodes)) \
-        + serialize_connections(model.connections) \
-        + serialize_registers(model.registers) \
-        + '</model>'
-
-
-def convert_to_xml(model: Model):
-    return '<?xml version="1.0" encoding="UTF-8"?>' + _serialize_model(model)

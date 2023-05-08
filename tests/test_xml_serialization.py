@@ -1,11 +1,11 @@
 import unittest
 
-from client.data.model import *
+from client.data.model import Model
+from client.data.objects import *
 from client.xml.serialize import *
 from client.xml.serialize import (_serialize_app, _serialize_attributes,
                                   _serialize_connection, _serialize_device,
-                                  _serialize_model, _serialize_precision,
-                                  _serialize_route)
+                                  _serialize_precision, _serialize_route)
 
 
 class TestXmlSerialization(unittest.TestCase):
@@ -234,17 +234,16 @@ class TestXmlSerialization(unittest.TestCase):
 
     def test_serialize_model(self):
         self.assertEqual(
-            _serialize_model(
-                Model(name='test',
-                      duration='1s',
-                      populate_tables=False,
-                      precision=Precision.NS,
-                      nodes=[],
-                      connections=[],
-                      registers=[]
-                      )
-            ),
-            '<model name="test">'
+            Model(name='test',
+                  duration='1s',
+                  populate_tables=False,
+                  precision=Precision.NS,
+                  nodes=[],
+                  connections=[],
+                  registers=[]
+                  ).convert_to_xml(),
+            '<?xml version="1.0" encoding="UTF-8"?>'
+            + '<model name="test">'
             + '<populate-routing-tables>false</populate-routing-tables>'
             + '<duration>1s</duration>'
             + '<precision>NS</precision>'
@@ -254,24 +253,23 @@ class TestXmlSerialization(unittest.TestCase):
         )
 
         self.assertEqual(
-            _serialize_model(
-                Model(name='test',
-                      duration='1s',
-                      populate_tables=True,
-                      precision=Precision.MS,
-                      nodes=[
-                          Node(
-                              name='test-node',
-                              devices=[],
-                              applications=[],
-                              routing=[]
-                          )
-                      ],
-                      connections=[],
-                      registers=[]
+            Model(name='test',
+                  duration='1s',
+                  populate_tables=True,
+                  precision=Precision.MS,
+                  nodes=[
+                      Node(
+                          name='test-node',
+                          devices=[],
+                          applications=[],
+                          routing=[]
                       )
-            ),
-            '<model name="test">'
+                  ],
+                  connections=[],
+                  registers=[]
+                  ).convert_to_xml(),
+            '<?xml version="1.0" encoding="UTF-8"?>'
+            + '<model name="test">'
             + '<populate-routing-tables>true</populate-routing-tables>'
             + '<duration>1s</duration>'
             + '<precision>MS</precision>'
