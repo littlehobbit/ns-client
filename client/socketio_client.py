@@ -23,15 +23,12 @@ class SocketioClient(QObject):
         self.data_received.emit(message)
 
     def _on_connect(self):
-        print('connected')
         self.connected.emit()
 
     def _on_disconnect(self):
-        print('disconnected')
         self.disconnected.emit()
 
     def _on_connect_error(self, data):
-        print('error')
         self.connection_error.emit(data)
 
     def connect(self, url):
