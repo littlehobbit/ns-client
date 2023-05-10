@@ -21,7 +21,7 @@ class Application:
     type: str
     attributes: Attributes
 
-
+    
 @dataclass
 class Route:
     network: str

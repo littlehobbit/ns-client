@@ -2,8 +2,7 @@ from dataclasses import dataclass
 from enum import Enum, auto
 from typing import Dict, List, Optional, Tuple
 
-from client.data.objects import (Connection, Device, Node, Precision, Register,
-                                 Route)
+from client.data.objects import *
 from client.xml.serialize import (serialize_connections, serialize_node,
                                   serialize_registers)
 
@@ -51,7 +50,9 @@ current_model = Model(
                            ['dead:cffe:feed::1', '32']
                        ])
             ],
-            applications=[],
+            applications=[
+                Application('app', 'ns3::UdpEchoClientApplication', [])
+            ],
             ipv4_routes=[
                 Route(
                     network='10.101.0.0',

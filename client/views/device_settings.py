@@ -54,7 +54,6 @@ class DeviceSettings(QDialog):
 
     def __init__(self, parent: QWidget, editable: Device) -> None:
         super().__init__(parent)
-
         uic.loadUi('client/ui/DeviceSettings.ui', self)
 
         self.editable = editable

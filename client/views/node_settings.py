@@ -7,8 +7,9 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtWidgets import QWidget
 
 import client.data.model as model
-from client.data.objects import Node, Route, Device
+from client.data.objects import Node, Route, Device, Application
 from client.views.device_settings import DeviceSettings
+from client.views.app_settings import ApplicationsSettings
 
 from copy import deepcopy
 
@@ -72,6 +73,7 @@ class NodeSettings(QDialog):
     device_list: QListView
     ipv4_routes: QTableView
     ipv6_routes: QTableView
+    applications_list: QListView
 
     def __init__(self, parent: QWidget, editable_node: Node) -> None:
         super().__init__(parent)
@@ -96,6 +98,10 @@ class NodeSettings(QDialog):
 
         self.edit_device.clicked.connect(self.on_edit_device)
         self.add_device.clicked.connect(self.on_add_device)
+
+        self.add_app.clicked.connect(self.on_add_app)
+        self.delete_app.clicked.connect(self.on_delete_app)
+        self.edit_app.clicked.connect(self.on_edit_app)
 
         self.update_device_list()
         self.update_apps_list()
@@ -171,3 +177,22 @@ class NodeSettings(QDialog):
         if len(self.editable_node.ipv6_routes) > 0:
             del self.editable_node.ipv6_routes[index]
             self.update_ipv6_routes()
+
+    def on_add_app(self):
+        new_app = Application('app', '', [])
+        if ApplicationsSettings(self, new_app).exec() == 1:
+            self.editable_node.applications.append(new_app)
+            self.update_apps_list()
+
+    def on_edit_app(self):
+        index = self.applications_list.currentIndex().row()
+        edited_app = deepcopy(self.editable_node.applications[index])
+        if ApplicationsSettings(self, edited_app).exec() == 1:
+            self.editable_node.applications[index] = edited_app
+            self.update_apps_list()
+
+    def on_delete_app(self):
+        index = self.applications_list.currentIndex().row()
+        if len(self.editable_node.applications) > 0:
+            del self.editable_node.applications[index]
+            self.update_apps_list()
