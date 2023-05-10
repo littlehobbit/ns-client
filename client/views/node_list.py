@@ -1,0 +1,64 @@
+import typing
+from copy import deepcopy
+from typing import List
+
+import client.data.model as model
+from client.data.objects import Node
+from client.views.node_settings import NodeSettings
+from PyQt5 import QtCore, QtGui, uic
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QWidget
+
+
+class NodeList(QDialog):
+    add_button: QPushButton
+    edit_button: QPushButton
+    delete_button: QPushButton
+    list_view: QListView
+    nodes_list: List[Node]
+
+    def __init__(self, parent: QWidget) -> None:
+        super().__init__(parent)
+
+        import client.res.resources
+        uic.loadUi('client/ui/NodeList.ui', self)
+
+        self.add_button.clicked.connect(self.on_add)
+        self.edit_button.clicked.connect(self.on_edit)
+        self.delete_button.clicked.connect(self.on_delete)
+
+        self.nodes_list = deepcopy(model.current_model.nodes)
+        self.update_list()
+
+    def update_list(self) -> None:
+        list_model = QStandardItemModel()
+        self.list_view.setModel(list_model)
+
+        for node in self.nodes_list:
+            item = QStandardItem(node.name)
+            item.setEditable(False)
+            list_model.appendRow(item)
+
+    def on_add(self):
+        pass
+
+    def on_edit(self):
+        id = self.list_view.currentIndex().row()
+
+        new_node = deepcopy(self.nodes_list[id])
+        settings = NodeSettings(self, new_node)
+        if settings.exec() == 1:
+            self.nodes_list[id] = new_node
+            self.update_list()
+
+    def on_delete(self):
+        to_delete = self.list_view.currentIndex().row()
+        if len(self.nodes_list) > 0:
+            del self.nodes_list[to_delete]
+            self.update_list()
+
+    def accept(self):
+        model.current_model.nodes = self.nodes_list
+        super().accept()
