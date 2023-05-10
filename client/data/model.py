@@ -2,9 +2,10 @@ from dataclasses import dataclass
 from enum import Enum, auto
 from typing import Dict, List, Optional, Tuple
 
-from client.data.objects import Connection, Node, Precision, Register
-
-from client.xml.serialize import serialize_node, serialize_connections, serialize_registers
+from client.data.objects import (Connection, Device, Node, Precision, Register,
+                                 Route)
+from client.xml.serialize import (serialize_connections, serialize_node,
+                                  serialize_registers)
 
 
 @dataclass
@@ -36,7 +37,71 @@ current_model = Model(
     duration='5s',
     populate_tables=False,
     precision=Precision.NS,
-    nodes=[],
+    nodes=[
+        Node(
+            name='adwda',
+            devices=[
+                Device([], [], 'device1', 'Csma', {})
+            ],
+            applications=[],
+            routing=[
+                Route(
+                    network='10.101.0.0',
+                    netmask='255.255.0.0',
+                    dst='eth0',
+                    metric=10
+                ),
+                Route(
+                    network='2001:dead:beef:1002::0',
+                    prefix='64',
+                    dst='eth1',
+                    metric=30
+                ),
+                Route(
+                    network='10.101.0.0',
+                    netmask='255.255.0.0',
+                    dst='eth0',
+                    metric=10
+                ),
+                Route(
+                    network='2001:dead:beef:1002::0',
+                    prefix='64',
+                    dst='eth1',
+                    metric=30
+                )
+            ]
+        ),
+        Node(
+            name='adwda',
+            devices=[],
+            applications=[],
+            routing=[]
+        ),
+        Node(
+            name='adwda',
+            devices=[],
+            applications=[],
+            routing=[]
+        ),
+        Node(
+            name='adwda',
+            devices=[],
+            applications=[],
+            routing=[]
+        ),
+        Node(
+            name='adwda',
+            devices=[],
+            applications=[],
+            routing=[]
+        ),
+        Node(
+            name='adwda',
+            devices=[],
+            applications=[],
+            routing=[]
+        ),
+    ],
     connections=[],
     registers=[]
 )
