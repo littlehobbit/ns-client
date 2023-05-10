@@ -7,7 +7,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtWidgets import QWidget
 
 import client.data.model as model
-from client.data.objects import Node, Route
+from client.data.objects import Node, Route, Device
+from client.views.device_settings import DeviceSettings
 
 from copy import deepcopy
 
@@ -90,9 +91,11 @@ class NodeSettings(QDialog):
         self.delete_ipv4.clicked.connect(self.on_delete_ipv4_route)
         self.delete_ipv6.clicked.connect(self.on_delete_ipv6_route)
 
-
         self.ipv4_routes.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.ipv6_routes.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        self.edit_device.clicked.connect(self.on_edit_device)
+        self.add_device.clicked.connect(self.on_add_device)
 
         self.update_device_list()
         self.update_apps_list()
@@ -105,7 +108,6 @@ class NodeSettings(QDialog):
     def update_device_list(self):
         list_model = QStandardItemModel()
         self.device_list.setModel(list_model)
-
         for device in self.editable_node.devices:
             item = QStandardItem(device.name)
             item.setEditable(False)
@@ -114,9 +116,8 @@ class NodeSettings(QDialog):
     def update_apps_list(self):
         list_model = QStandardItemModel()
         self.applications_list.setModel(list_model)
-
-        for device in self.editable_node.applications:
-            item = QStandardItem(device.name)
+        for app in self.editable_node.applications:
+            item = QStandardItem(app.name)
             item.setEditable(False)
             list_model.appendRow(item)
 
@@ -132,6 +133,19 @@ class NodeSettings(QDialog):
         index = self.device_list.currentIndex().row()
         if len(self.editable_node.devices) > 0:
             del self.editable_node.devices[index]
+            self.update_device_list()
+
+    def on_add_device(self):
+        new_device = Device('', '', [], [], [])
+        if DeviceSettings(self, new_device).exec() == 1:
+            self.editable_node.devices.append(new_device)
+            self.update_device_list()
+
+    def on_edit_device(self):
+        index = self.device_list.currentIndex().row()
+        edited = deepcopy(self.editable_node.devices[index])
+        if DeviceSettings(self, edited).exec() == 1:
+            self.editable_node.devices[index] = edited
             self.update_device_list()
 
     def add_new_ipv4_route(self):
