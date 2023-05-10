@@ -77,7 +77,7 @@ class MainWindow(QMainWindow):
         self._show_message_box(QMessageBox.Information, f'Connected')
 
     def on_connection_error(self, err):
-        self._show_message_box(QMessageBox.Critical, f'Connected', title='Error',
+        self._show_message_box(QMessageBox.Critical, f'Connection Error', title='Error',
                                informative_text=f'Can\'t connect to "{settings.remote_url}"')
 
     def on_open_settings(self):
