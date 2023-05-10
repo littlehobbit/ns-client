@@ -1,0 +1,17 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+  <qresource>
+    <file>./images/run.svg</file>
+    <file>./images/tracer.svg</file>
+    <file>./images/settings.svg</file>
+    <file>./images/connections.svg</file>
+    <file>./images/add_node.svg</file>
+    <file>./images/stop.svg</file>
+    <file>./images/export.svg</file>
+    <file>./images/import.svg</file>
+    <file>./images/connect.svg</file>
+    <file>./images/run.svg</file>
+    <file>./images/model.svg</file>
+    <file>./images/ns-3.png</file>
+  </qresource>
+</RCC>
