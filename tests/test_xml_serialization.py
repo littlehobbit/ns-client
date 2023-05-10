@@ -13,9 +13,10 @@ class TestXmlSerialization(unittest.TestCase):
         app = Application(
             name='test',
             type='ns3::UdpEchoClient',
-            attributes={
-                'MaxSize': '1000'
-            })
+            attributes=[
+                ['MaxSize', '1000']
+            ]
+        )
 
         self.assertEqual(
             _serialize_app(app),
@@ -46,11 +47,11 @@ class TestXmlSerialization(unittest.TestCase):
         self.assertEqual(
             _serialize_device(
                 Device(
-                    [('10.10.10.10', '255.255.255.0')],
-                    [('dead:beaf:cffe::1', '32')],
                     'device',
                     'Csma',
-                    {'Speed': '10mbps'}
+                    [['Speed', '10mbps']],
+                    [('10.10.10.10', '255.255.255.0')],
+                    [('dead:beaf:cffe::1', '32')],
                 )),
             '<device name="device" type="Csma">'
             + '<address value="10.10.10.10" netmask="255.255.255.0"/>'
@@ -64,11 +65,11 @@ class TestXmlSerialization(unittest.TestCase):
         self.assertEqual(
             _serialize_device(
                 Device(
-                    [],
-                    [('dead:beaf:cffe::1', '32')],
                     'device',
                     'Csma',
-                    {'Speed': '10mbps'}
+                    [['Speed', '10mbps']],
+                    [],
+                    [('dead:beaf:cffe::1', '32')],
                 )),
             '<device name="device" type="Csma">'
             + '<address value="dead:beaf:cffe::1" prefix="32"/>'
@@ -87,11 +88,11 @@ class TestXmlSerialization(unittest.TestCase):
         self.assertEqual(
             serialize_devices([
                 Device(
-                    [],
-                    [('dead:beaf:cffe::1', '32')],
                     'device',
                     'Csma',
-                    {'Speed': '10mbps'}
+                    [['Speed', '10mbps']],
+                    [],
+                    [('dead:beaf:cffe::1', '32')],
                 )
             ]),
             '<device-list>'
@@ -138,7 +139,7 @@ class TestXmlSerialization(unittest.TestCase):
                     name='test',
                     type='Csma',
                     interfaces=['eth0', 'eth1'],
-                    attributes={}
+                    attributes=[]
                 )]
             ),
             '<connections>'

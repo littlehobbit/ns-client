@@ -39,9 +39,17 @@ current_model = Model(
     precision=Precision.NS,
     nodes=[
         Node(
-            name='adwda',
+            name='node-1',
             devices=[
-                Device([], [], 'device1', 'Csma', {})
+                Device(name='device1',
+                       type='Csma',
+                       attributes=[['name', 'value']],
+                       ipv4_addresses=[
+                           ['1.1.1.1', '255.255.255.0']
+                       ],
+                       ipv6_addresses=[
+                           ['dead:cffe:feed::1', '32']
+                       ])
             ],
             applications=[],
             ipv4_routes=[
@@ -73,40 +81,12 @@ current_model = Model(
             ]
         ),
         Node(
-            name='adwda',
+            name='node-2',
             devices=[],
             applications=[],
             ipv4_routes=[],
             ipv6_routes=[]
-        ),
-        Node(
-            name='adwda',
-            devices=[],
-            applications=[],
-            ipv4_routes=[],
-            ipv6_routes=[]
-        ),
-        Node(
-            name='adwda',
-            devices=[],
-            applications=[],
-            ipv4_routes=[],
-            ipv6_routes=[]
-        ),
-        Node(
-            name='adwda',
-            devices=[],
-            applications=[],
-            ipv4_routes=[],
-            ipv6_routes=[]
-        ),
-        Node(
-            name='adwda',
-            devices=[],
-            applications=[],
-            ipv4_routes=[],
-            ipv6_routes=[]
-        ),
+        )
     ],
     connections=[],
     registers=[]

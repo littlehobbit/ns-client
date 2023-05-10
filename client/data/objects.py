@@ -2,16 +2,17 @@ from dataclasses import dataclass
 from typing import List, Dict, Optional, Tuple
 from enum import Enum, auto
 
-Attributes = Dict[str, str]
-Address = Tuple[str, str]
+Attributes = List[List[str]]
+Address = List[str]
+
 
 @dataclass
 class Device:
-    ipv4_addresses: List[Address]
-    ipv6_addresses: List[Address]
     name: str
     type: str
     attributes: Attributes
+    ipv4_addresses: List[Address]
+    ipv6_addresses: List[Address]
 
 
 @dataclass

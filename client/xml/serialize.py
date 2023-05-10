@@ -19,7 +19,7 @@ def _serialize_attributes(attributes: Attributes):
     return '<attributes>' \
         + ''.join(
             map(
-                lambda attr: f'<attribute key="{attr[0]}" value="{attr[1]}"/>', attributes.items())
+                lambda attr: f'<attribute key="{attr[0]}" value="{attr[1]}"/>', attributes)
         ) \
         + '</attributes>'
 
