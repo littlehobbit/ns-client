@@ -42,15 +42,17 @@ class NodeList(QDialog):
             list_model.appendRow(item)
 
     def on_add(self):
-        pass
+        new_node = Node('new', [], [], [], [])
+        if NodeSettings(self, new_node).exec() == 1:
+            self.nodes_list.append(new_node)
+            self.update_list()
 
     def on_edit(self):
         id = self.list_view.currentIndex().row()
 
-        new_node = deepcopy(self.nodes_list[id])
-        settings = NodeSettings(self, new_node)
-        if settings.exec() == 1:
-            self.nodes_list[id] = new_node
+        edited = deepcopy(self.nodes_list[id])
+        if NodeSettings(self, edited).exec() == 1:
+            self.nodes_list[id] = edited
             self.update_list()
 
     def on_delete(self):
