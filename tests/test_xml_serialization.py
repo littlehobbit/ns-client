@@ -1,6 +1,6 @@
 import unittest
 
-from client.data.model import Model
+from client.data.model import Model, ModelParameters
 from client.data.objects import *
 from client.xml.serialize import *
 from client.xml.serialize import (_serialize_app, _serialize_attributes,
@@ -236,10 +236,10 @@ class TestXmlSerialization(unittest.TestCase):
 
     def test_serialize_model(self):
         self.assertEqual(
-            Model(name='test',
-                  duration='1s',
-                  populate_tables=False,
-                  precision=Precision.NS,
+            Model(parameters=ModelParameters(name='test',
+                                             duration='1s',
+                                             populate_tables=False,
+                                             precision=Precision.NS),
                   nodes=[],
                   connections=[],
                   registers=[]
@@ -255,22 +255,22 @@ class TestXmlSerialization(unittest.TestCase):
         )
 
         self.assertEqual(
-            Model(name='test',
-                  duration='1s',
-                  populate_tables=True,
-                  precision=Precision.MS,
-                  nodes=[
-                      Node(
-                          name='test-node',
-                          devices=[],
-                          applications=[],
-                          ipv4_routes=[],
-                          ipv6_routes=[]
-                      )
-                  ],
-                  connections=[],
-                  registers=[]
-                  ).convert_to_xml(),
+            Model(
+                parameters=ModelParameters(name='test',
+                                           duration='1s',
+                                           populate_tables=True,
+                                           precision=Precision.MS),
+                nodes=[
+                    Node(
+                        name='test-node',
+                        devices=[],
+                        applications=[],
+                        ipv4_routes=[],
+                        ipv6_routes=[])
+                ],
+                connections=[],
+                registers=[]
+            ).convert_to_xml(),
             '<?xml version="1.0" encoding="UTF-8"?>'
             + '<model name="test">'
             + '<populate-routing-tables>true</populate-routing-tables>'

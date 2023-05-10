@@ -8,11 +8,16 @@ from client.xml.serialize import (serialize_connections, serialize_node,
 
 
 @dataclass
-class Model:
+class ModelParameters:
     name: str
     duration: str
     populate_tables: bool
     precision: Precision
+
+
+@dataclass
+class Model:
+    parameters: ModelParameters
     nodes: List[Node]
     connections: List[Connection]
     registers: List[Register]
@@ -21,10 +26,10 @@ class Model:
         return '<?xml version="1.0" encoding="UTF-8"?>' + self._serialize()
 
     def _serialize(self):
-        return f'<model name="{self.name}">' \
-            + f'<populate-routing-tables>{str(self.populate_tables).lower()}</populate-routing-tables>' \
-            + f'<duration>{self.duration}</duration>' \
-            + f'<precision>{self.precision.name}</precision>' \
+        return f'<model name="{self.parameters.name}">' \
+            + f'<populate-routing-tables>{str(self.parameters.populate_tables).lower()}</populate-routing-tables>' \
+            + f'<duration>{self.parameters.duration}</duration>' \
+            + f'<precision>{self.parameters.precision.name}</precision>' \
             + ''.join(map(serialize_node, self.nodes)) \
             + serialize_connections(self.connections) \
             + serialize_registers(self.registers) \
@@ -32,17 +37,17 @@ class Model:
 
 
 current_model = Model(
-    name='default',
-    duration='5s',
-    populate_tables=False,
-    precision=Precision.NS,
+    parameters=ModelParameters(name='default',
+                               duration='5s',
+                               populate_tables=False,
+                               precision=Precision.NS),
     nodes=[
         Node(
             name='node-1',
             devices=[
-                Device(name='device1',
+                Device(name='eth0',
                        type='Csma',
-                       attributes=[['name', 'value']],
+                       attributes=[],
                        ipv4_addresses=[
                            ['1.1.1.1', '255.255.255.0']
                        ],
@@ -51,7 +56,6 @@ current_model = Model(
                        ])
             ],
             applications=[
-                Application('app', 'ns3::UdpEchoClientApplication', [])
             ],
             ipv4_routes=[
                 Route(

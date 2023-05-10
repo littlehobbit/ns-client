@@ -4,10 +4,13 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
+from copy import deepcopy
+
 import client.data.settings as settings
 from client.socketio_client import SocketioClient
 from client.views.node_list import NodeList
 from client.views.remote_diag import RemoteDiag
+from client.views.model_settings import ModelSettings
 import client.data.model as model
 
 
@@ -16,6 +19,7 @@ class MainWindow(QMainWindow):
     connect_button: QAction
     nodes_button: QAction
     export_button: QAction
+    settings_button: QAction
 
     def __init__(self, websocket: SocketioClient) -> None:
         super().__init__()
@@ -30,6 +34,8 @@ class MainWindow(QMainWindow):
         self.nodes_button.triggered.connect(self.on_nodes_button)
 
         self.export_button.triggered.connect(self.export_model)
+
+        self.settings_button.triggered.connect(self.on_open_settings)
 
     def on_remotes_button(self):
         diag = RemoteDiag(self)
@@ -74,8 +80,14 @@ class MainWindow(QMainWindow):
         self._show_message_box(QMessageBox.Critical, f'Connected', title='Error',
                                informative_text=f'Can\'t connect to "{settings.remote_url}"')
 
+    def on_open_settings(self):
+        new_settings = deepcopy(model.current_model.parameters)
+        if ModelSettings(self, new_settings).exec() == 1:
+            model.current_model.parameters = new_settings
+
     def export_model(self):
         file, _ = QFileDialog.getSaveFileName(self, 'Save File')
-        with open(file, 'w') as f:
-            content = model.current_model.convert_to_xml()
-            f.write(content)
+        if len(file) > 0:
+            with open(file, 'w') as f:
+                content = model.current_model.convert_to_xml()
+                f.write(content)
