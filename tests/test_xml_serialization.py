@@ -222,7 +222,8 @@ class TestXmlSerialization(unittest.TestCase):
                     name='node',
                     devices=[],
                     applications=[],
-                    routing=[]
+                    ipv4_routes=[],
+                    ipv6_routes=[]
                 )
             ),
             '<node name="node">'
@@ -262,7 +263,8 @@ class TestXmlSerialization(unittest.TestCase):
                           name='test-node',
                           devices=[],
                           applications=[],
-                          routing=[]
+                          ipv4_routes=[],
+                          ipv6_routes=[]
                       )
                   ],
                   connections=[],

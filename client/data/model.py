@@ -44,24 +44,25 @@ current_model = Model(
                 Device([], [], 'device1', 'Csma', {})
             ],
             applications=[],
-            routing=[
+            ipv4_routes=[
                 Route(
                     network='10.101.0.0',
                     netmask='255.255.0.0',
                     dst='eth0',
                     metric=10
                 ),
+                Route(
+                    network='10.101.0.0',
+                    netmask='255.255.0.0',
+                    dst='eth0',
+                    metric=10
+                )],
+            ipv6_routes=[
                 Route(
                     network='2001:dead:beef:1002::0',
                     prefix='64',
                     dst='eth1',
                     metric=30
-                ),
-                Route(
-                    network='10.101.0.0',
-                    netmask='255.255.0.0',
-                    dst='eth0',
-                    metric=10
                 ),
                 Route(
                     network='2001:dead:beef:1002::0',
@@ -75,31 +76,36 @@ current_model = Model(
             name='adwda',
             devices=[],
             applications=[],
-            routing=[]
+            ipv4_routes=[],
+            ipv6_routes=[]
         ),
         Node(
             name='adwda',
             devices=[],
             applications=[],
-            routing=[]
+            ipv4_routes=[],
+            ipv6_routes=[]
         ),
         Node(
             name='adwda',
             devices=[],
             applications=[],
-            routing=[]
+            ipv4_routes=[],
+            ipv6_routes=[]
         ),
         Node(
             name='adwda',
             devices=[],
             applications=[],
-            routing=[]
+            ipv4_routes=[],
+            ipv6_routes=[]
         ),
         Node(
             name='adwda',
             devices=[],
             applications=[],
-            routing=[]
+            ipv4_routes=[],
+            ipv6_routes=[]
         ),
     ],
     connections=[],

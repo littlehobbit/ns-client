@@ -9,6 +9,8 @@ from PyQt5.QtWidgets import QWidget
 import client.data.model as model
 from client.data.objects import Node, Route
 
+from copy import deepcopy
+
 
 class RoutesTableModel(QAbstractTableModel):
     ipv4_header = ('net', 'mask', 'dst', 'metric')
@@ -20,7 +22,7 @@ class RoutesTableModel(QAbstractTableModel):
         self.is_ipv6 = is_ipv6
 
     def data(self, index, role):
-        if role == Qt.DisplayRole:
+        if role == Qt.DisplayRole or role == Qt.EditRole:
             route = self.routes[index.row()]
             if index.column() == 0:
                 return route.network
@@ -30,6 +32,23 @@ class RoutesTableModel(QAbstractTableModel):
                 return route.dst
             elif index.column() == 3:
                 return route.metric
+
+    def setData(self, index, value, role):
+        if role == Qt.EditRole:
+            route = self.routes[index.row()]
+            if index.column() == 0:
+                route.network = value
+            elif index.column() == 1:
+                if self.is_ipv6:
+                    route.prefix = value
+                else:
+                    route.netmask = value
+            elif index.column() == 2:
+                route.dst = value
+            elif index.column() == 3:
+                route.metric = int(value)
+            return True
+        return False
 
     def rowCount(self, index):
         return len(self.routes)
@@ -43,10 +62,15 @@ class RoutesTableModel(QAbstractTableModel):
             if orientation == Qt.Horizontal:
                 return (self.ipv6_header if self.is_ipv6 else self.ipv4_header)[section]
 
+    def flags(self, index):
+        return Qt.ItemIsSelectable | Qt.ItemIsEnabled | Qt.ItemIsEditable
+
 
 class NodeSettings(QDialog):
     name_edit: QLineEdit
     device_list: QListView
+    ipv4_routes: QTableView
+    ipv6_routes: QTableView
 
     def __init__(self, parent: QWidget, editable_node: Node) -> None:
         super().__init__(parent)
@@ -59,6 +83,16 @@ class NodeSettings(QDialog):
         self.name_edit.textChanged.connect(self.update_node_name)
 
         self.delete_device.clicked.connect(self.on_delete_device)
+
+        self.add_ipv4.clicked.connect(self.add_new_ipv4_route)
+        self.add_ipv6.clicked.connect(self.add_new_ipv6_route)
+
+        self.delete_ipv4.clicked.connect(self.on_delete_ipv4_route)
+        self.delete_ipv6.clicked.connect(self.on_delete_ipv6_route)
+
+
+        self.ipv4_routes.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.ipv6_routes.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
         self.update_device_list()
         self.update_apps_list()
@@ -87,17 +121,39 @@ class NodeSettings(QDialog):
             list_model.appendRow(item)
 
     def update_ipv4_routes(self):
-        ipv4_routes = [
-            route for route in self.editable_node.routing if route.netmask is not None]
-        self.ipv4_routes.setModel(RoutesTableModel(ipv4_routes, False, self))
+        self.ipv4_routes.setModel(RoutesTableModel(
+            self.editable_node.ipv4_routes, False, self))
 
     def update_ipv6_routes(self):
-        ipv6_routes = [
-            route for route in self.editable_node.routing if route.prefix is not None]
-        self.ipv6_routes.setModel(RoutesTableModel(ipv6_routes, True, self))
+        self.ipv6_routes.setModel(RoutesTableModel(
+            self.editable_node.ipv6_routes, True, self))
 
     def on_delete_device(self):
         index = self.device_list.currentIndex().row()
         if len(self.editable_node.devices) > 0:
             del self.editable_node.devices[index]
             self.update_device_list()
+
+    def add_new_ipv4_route(self):
+        self.editable_node.ipv4_routes.append(
+            Route('', '', 0, netmask='')
+        )
+        self.update_ipv4_routes()
+
+    def add_new_ipv6_route(self):
+        self.editable_node.ipv6_routes.append(
+            Route('', '', 0, prefix='16')
+        )
+        self.update_ipv6_routes()
+
+    def on_delete_ipv4_route(self):
+        index = self.ipv4_routes.currentIndex().row()
+        if len(self.editable_node.ipv4_routes) > 0:
+            del self.editable_node.ipv4_routes[index]
+            self.update_ipv4_routes()
+
+    def on_delete_ipv6_route(self):
+        index = self.ipv6_routes.currentIndex().row()
+        if len(self.editable_node.ipv6_routes) > 0:
+            del self.editable_node.ipv6_routes[index]
+            self.update_ipv6_routes()

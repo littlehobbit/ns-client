@@ -46,8 +46,8 @@ def _serialize_route(route: Route):
     return f'<route network="{route.network}" {mask_type}="{content}" dst="{route.dst}" metric="{route.metric}"/>'
 
 
-def serialize_routing(routes: List[Route]):
-    return '<routing>' + ''.join(map(_serialize_route, routes)) + '</routing>'
+def serialize_routes(routes: List[Route]):
+    return ''.join(map(_serialize_route, routes))
 
 
 def _serialize_connection(connection: Connection):
@@ -88,7 +88,10 @@ def serialize_registers(registers: List[Register]):
 def serialize_node(node: Node):
     return f'<node name="{node.name}">' \
         + serialize_devices(node.devices) \
-        + serialize_routing(node.routing) \
+        + '<routing>' \
+        + serialize_routes(node.ipv4_routes) \
+        + serialize_routes(node.ipv6_routes) \
+        + '</routing>' \
         + serialize_applications(node.applications) \
         + '</node>'
 

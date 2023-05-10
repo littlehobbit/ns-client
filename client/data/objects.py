@@ -35,7 +35,8 @@ class Node:
     name: str
     devices: List[Device]
     applications: List[Application]
-    routing: List[Route]
+    ipv4_routes: List[Route]
+    ipv6_routes: List[Route]
 
 
 @dataclass

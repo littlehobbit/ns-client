@@ -193,13 +193,6 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="edit_ipv4">
-                <property name="text">
-                 <string>Edit</string>
-                </property>
-               </widget>
-              </item>
-              <item>
                <widget class="QPushButton" name="delete_ipv4">
                 <property name="text">
                  <string>Delete</string>
@@ -252,13 +245,6 @@
                <widget class="QPushButton" name="add_ipv6">
                 <property name="text">
                  <string>Add</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="edit_ipv6">
-                <property name="text">
-                 <string>Edit</string>
                 </property>
                </widget>
               </item>
