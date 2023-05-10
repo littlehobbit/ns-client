@@ -3,3 +3,6 @@ init:
 
 test:
 	python3 -m unittest
+
+res:
+	pyrcc5 client/res/resources.qrc -o client/res/resources.py
