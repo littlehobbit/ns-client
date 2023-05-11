@@ -9,6 +9,7 @@ from copy import deepcopy
 import client.data.settings as settings
 from client.socketio_client import SocketioClient
 from client.views.node_list import NodeList
+from client.views.connection_list import ConnectionsList
 from client.views.remote_diag import RemoteDiag
 from client.views.model_settings import ModelSettings
 import client.data.model as model
@@ -20,6 +21,7 @@ class MainWindow(QMainWindow):
     nodes_button: QAction
     export_button: QAction
     settings_button: QAction
+    connections_button: QAction
 
     def __init__(self, websocket: SocketioClient) -> None:
         super().__init__()
@@ -37,14 +39,15 @@ class MainWindow(QMainWindow):
 
         self.settings_button.triggered.connect(self.on_open_settings)
 
+        self.connections_button.triggered.connect(self.on_open_connections)
+
     def on_remotes_button(self):
         diag = RemoteDiag(self)
         diag.accepted.connect(self.reconnect)
         diag.show()
 
     def on_nodes_button(self):
-        diag = NodeList(self)
-        diag.show()
+        NodeList(self).exec()
 
     def _on_receive(self, data):
         data = json.loads(data)
@@ -84,6 +87,11 @@ class MainWindow(QMainWindow):
         new_settings = deepcopy(model.current_model.parameters)
         if ModelSettings(self, new_settings).exec() == 1:
             model.current_model.parameters = new_settings
+
+    def on_open_connections(self):
+        edited = deepcopy(model.current_model.connections)
+        if ConnectionsList(self, edited).exec() == 1:
+            model.current_model.connections = edited
 
     def export_model(self):
         file, _ = QFileDialog.getSaveFileName(self, 'Save File')
