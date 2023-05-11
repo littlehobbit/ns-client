@@ -32,10 +32,10 @@ class ModelSettings(QDialog):
         self.time_combo.currentTextChanged.connect(self.on_change_precision)
 
     def on_name_change(self, new_name):
-        self.settings.name = new_name
+        self.settings.name = new_name.strip()
 
     def on_duration_change(self, new_duration):
-        self.settings.duration = new_duration
+        self.settings.duration = new_duration.strip()
 
     def on_change_precision(self, new_precision):
         self.settings.precision = Precision[new_precision]

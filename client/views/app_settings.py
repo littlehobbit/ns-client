@@ -52,7 +52,7 @@ class ApplicationsSettings(QDialog):
         )
     
     def on_update_name(self, name):
-      self.editable.name = name
+      self.editable.name = name.strip()
     
     def on_update_type(self, type):
-      self.editable.type = type
+      self.editable.type = type.strip()

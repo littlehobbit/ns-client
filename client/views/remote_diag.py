@@ -17,5 +17,5 @@ class RemoteDiag(QDialog):
         self.url_edit.setText(settings.remote_url)
 
     def accept(self):
-        settings.remote_url = self.url_edit.text()
+        settings.remote_url = self.url_edit.text().strip()
         super().accept()

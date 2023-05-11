@@ -36,4 +36,4 @@ class AttributesModel(QAbstractTableModel):
                 return self.header[section]
 
     def flags(self, index):
-        return Qt.ItemIsSelectable | Qt.ItemIsEnabled | Qt.ItemIsEditable
+        return Qt.ItemIsEnabled | Qt.ItemIsEditable

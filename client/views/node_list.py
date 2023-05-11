@@ -21,8 +21,6 @@ class NodeList(QDialog):
 
     def __init__(self, parent: QWidget) -> None:
         super().__init__(parent)
-
-        import client.res.resources
         uic.loadUi('client/ui/NodeList.ui', self)
 
         self.add_button.clicked.connect(self.on_add)

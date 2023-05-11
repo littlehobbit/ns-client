@@ -37,7 +37,7 @@ class AddressModel(QAbstractTableModel):
         return False
 
     def flags(self, index):
-        return Qt.ItemIsSelectable | Qt.ItemIsEnabled | Qt.ItemIsEditable
+        return Qt.ItemIsEnabled | Qt.ItemIsEditable
 
     def rowCount(self, index):
         return len(self.addresses)
@@ -101,7 +101,7 @@ class DeviceSettings(QDialog):
         )
 
     def update_device_name(self, name):
-        self.editable.name = name
+        self.editable.name = name.strip()
 
     def update_device_type(self):
         self.editable.type = self.type_combo.currentText()

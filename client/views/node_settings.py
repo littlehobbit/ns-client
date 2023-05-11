@@ -39,14 +39,14 @@ class RoutesTableModel(QAbstractTableModel):
         if role == Qt.EditRole:
             route = self.routes[index.row()]
             if index.column() == 0:
-                route.network = value
+                route.network = value.strip()
             elif index.column() == 1:
                 if self.is_ipv6:
-                    route.prefix = value
+                    route.prefix = value.strip()
                 else:
-                    route.netmask = value
+                    route.netmask = value.strip()
             elif index.column() == 2:
-                route.dst = value
+                route.dst = value.strip()
             elif index.column() == 3:
                 route.metric = int(value)
             return True
@@ -65,7 +65,7 @@ class RoutesTableModel(QAbstractTableModel):
                 return (self.ipv6_header if self.is_ipv6 else self.ipv4_header)[section]
 
     def flags(self, index):
-        return Qt.ItemIsSelectable | Qt.ItemIsEnabled | Qt.ItemIsEditable
+        return Qt.ItemIsEnabled | Qt.ItemIsEditable
 
 
 class NodeSettings(QDialog):
@@ -109,7 +109,7 @@ class NodeSettings(QDialog):
         self.update_ipv6_routes()
 
     def update_node_name(self, name):
-        self.editable_node.name = name
+        self.editable_node.name = name.strip()
 
     def update_device_list(self):
         list_model = QStandardItemModel()
