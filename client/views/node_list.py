@@ -47,7 +47,9 @@ class NodeList(QDialog):
 
     def on_edit(self):
         id = self.list_view.currentIndex().row()
-
+        if id == -1:
+            return
+        
         edited = deepcopy(self.nodes_list[id])
         if NodeSettings(self, edited).exec() == 1:
             self.nodes_list[id] = edited

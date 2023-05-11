@@ -149,6 +149,9 @@ class NodeSettings(QDialog):
 
     def on_edit_device(self):
         index = self.device_list.currentIndex().row()
+        if index == -1:
+            return
+
         edited = deepcopy(self.editable_node.devices[index])
         if DeviceSettings(self, edited).exec() == 1:
             self.editable_node.devices[index] = edited
@@ -186,6 +189,9 @@ class NodeSettings(QDialog):
 
     def on_edit_app(self):
         index = self.applications_list.currentIndex().row()
+        if index == -1:
+            return
+
         edited_app = deepcopy(self.editable_node.applications[index])
         if ApplicationsSettings(self, edited_app).exec() == 1:
             self.editable_node.applications[index] = edited_app
