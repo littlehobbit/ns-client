@@ -1,6 +1,7 @@
 import json
 from copy import deepcopy
 
+import requests
 from PyQt5 import uic
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -23,6 +24,8 @@ class MainWindow(QMainWindow):
     settings_button: QAction
     connections_button: QAction
     tracers_button: QAction
+    stop_button: QAction
+    run_button: QAction
 
     def __init__(self, websocket: SocketioClient) -> None:
         super().__init__()
@@ -43,6 +46,9 @@ class MainWindow(QMainWindow):
         self.connections_button.triggered.connect(self.on_open_connections)
 
         self.tracers_button.triggered.connect(self.on_open_tracers)
+
+        self.stop_button.triggered.connect(self.send_stop)
+        self.run_button.triggered.connect(self.send_model)
 
     def on_remotes_button(self):
         diag = RemoteDiag(self)
@@ -107,3 +113,34 @@ class MainWindow(QMainWindow):
         edited = deepcopy(model.current_model.registers)
         if TracersList(self, edited).exec() == 1:
             model.current_model.registers = edited
+
+    def send_model(self):
+        url = settings.remote_url.strip()
+        if self.check_url(url) == False:
+            return
+
+        headers = {'Content-Type': 'application/xml'}
+        model_xml = model.current_model.convert_to_xml()
+        with requests.post(url+'/start', headers=headers, data=model_xml) as res:
+            if res.status_code != 200:
+                json_msg = json.loads(res.text)
+                self._show_message_box(QMessageBox.Critical,
+                                       'Server error', 'Error', json_msg['error'])
+
+    def send_stop(self):
+        url = settings.remote_url.strip()
+        if self.check_url(url) == False:
+            return
+
+        with requests.get(url+'/stop') as res:
+            if res.status_code != 200:
+                json_msg = json.loads(res.text)
+                self._show_message_box(QMessageBox.Critical,
+                                       'Server error', 'Error', json_msg['error'])
+
+    def check_url(self, url) -> bool:
+        if url == '':
+            self._show_message_box(QMessageBox.Critical,
+                                   'Can\'t stop', 'Error', 'Url is empty')
+            return False
+        return True
