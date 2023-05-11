@@ -1,18 +1,18 @@
 import json
-
-from PyQt5 import uic
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-
 from copy import deepcopy
 
+from PyQt5 import uic
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+
+import client.data.model as model
 import client.data.settings as settings
 from client.socketio_client import SocketioClient
-from client.views.node_list import NodeList
 from client.views.connection_list import ConnectionsList
-from client.views.remote_diag import RemoteDiag
 from client.views.model_settings import ModelSettings
-import client.data.model as model
+from client.views.node_list import NodeList
+from client.views.remote_diag import RemoteDiag
+from client.views.tracers_list import TracersList
 
 
 class MainWindow(QMainWindow):
@@ -22,6 +22,7 @@ class MainWindow(QMainWindow):
     export_button: QAction
     settings_button: QAction
     connections_button: QAction
+    tracers_button: QAction
 
     def __init__(self, websocket: SocketioClient) -> None:
         super().__init__()
@@ -40,6 +41,8 @@ class MainWindow(QMainWindow):
         self.settings_button.triggered.connect(self.on_open_settings)
 
         self.connections_button.triggered.connect(self.on_open_connections)
+
+        self.tracers_button.triggered.connect(self.on_open_tracers)
 
     def on_remotes_button(self):
         diag = RemoteDiag(self)
@@ -94,8 +97,13 @@ class MainWindow(QMainWindow):
             model.current_model.connections = edited
 
     def export_model(self):
-        file, _ = QFileDialog.getSaveFileName(self, 'Save File')
+        file, _ = QFileDialog.getSaveFileName(self, 'Save File', filter='.xml')
         if len(file) > 0:
-            with open(file, 'w') as f:
+            with open(file + '.xml', 'w') as f:
                 content = model.current_model.convert_to_xml()
                 f.write(content)
+
+    def on_open_tracers(self):
+        edited = deepcopy(model.current_model.registers)
+        if TracersList(self, edited).exec() == 1:
+            model.current_model.registers = edited
