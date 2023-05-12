@@ -6,8 +6,9 @@ from client.views.attributes_model import AttributesModel
 
 from PyQt5 import uic
 from PyQt5.QtCore import QAbstractListModel, QModelIndex, QObject, Qt
-from PyQt5.QtWidgets import (QComboBox, QDialog, QLineEdit, QListView,
-                             QPushButton, QWidget, QHeaderView)
+from PyQt5.QtWidgets import (QComboBox, QDialog, QHeaderView, QLineEdit,
+                             QListView, QPushButton, QStyledItemDelegate,
+                             QWidget)
 
 
 class InterfaceModel(QAbstractListModel):
@@ -30,6 +31,25 @@ class InterfaceModel(QAbstractListModel):
 
     def flags(self, index):
         return Qt.ItemIsEnabled | Qt.ItemIsEditable
+
+
+class QComboBoxDelegate(QStyledItemDelegate):
+    def createEditor(self, parent, option, index):
+        value = index.data(Qt.EditRole)
+
+        editor = QComboBox(parent)
+        editor.addItems(['None'])
+
+        for node in model.current_model.nodes:
+            editor.addItems(
+                [f'{node.name}/{dev.name}' for dev in node.devices])
+
+        editor.setCurrentText(value)
+
+        editor.currentIndexChanged.connect(
+            lambda: self.commitData.emit(editor))
+
+        return editor
 
 
 class ConnectionSettings(QDialog):
@@ -69,7 +89,7 @@ class ConnectionSettings(QDialog):
         self.editable.name = new_name.strip()
 
     def on_add_interface(self):
-        self.editable.interfaces.append('new')
+        self.editable.interfaces.append('None')
         self.update_interfaces()
 
     def on_delete_interface(self):
@@ -89,8 +109,10 @@ class ConnectionSettings(QDialog):
             self.update_attributes()
 
     def update_interfaces(self):
+        model = InterfaceModel(self, self.editable.interfaces)
+        self.interfaces_list.setItemDelegate(QComboBoxDelegate())
         self.interfaces_list.setModel(
-            InterfaceModel(self, self.editable.interfaces)
+            model
         )
 
     def update_attributes(self):
