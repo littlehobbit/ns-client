@@ -1,14 +1,13 @@
 from typing import List
 
-from PyQt5 import QtCore, QtGui, uic
-from PyQt5.QtCore import QAbstractListModel, QModelIndex, QObject, Qt
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtWidgets import QWidget
-
 import client.data.model as model
 from client.data.objects import Connection
 from client.views.attributes_model import AttributesModel
+
+from PyQt5 import uic
+from PyQt5.QtCore import QAbstractListModel, QModelIndex, QObject, Qt
+from PyQt5.QtWidgets import (QComboBox, QDialog, QLineEdit, QListView,
+                             QPushButton, QWidget, QHeaderView)
 
 
 class InterfaceModel(QAbstractListModel):
@@ -18,7 +17,7 @@ class InterfaceModel(QAbstractListModel):
 
     def data(self, index: QModelIndex, role: int):
         if role == Qt.DisplayRole or role == Qt.EditRole:
-            return self.interfaces[index.row()] 
+            return self.interfaces[index.row()]
 
     def setData(self, index: QModelIndex, value, role: int) -> bool:
         if role == Qt.EditRole:
@@ -55,6 +54,7 @@ class ConnectionSettings(QDialog):
         self.name_edit.textChanged.connect(self.on_change_name)
 
         self.add_interface.clicked.connect(self.on_add_interface)
+        self.delete_interface.clicked.connect(self.on_delete_interface)
         self.update_interfaces()
 
         self.attributes_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
