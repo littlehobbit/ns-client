@@ -41,13 +41,15 @@ class TopologyView(QWidget):
             if len(endpoints) == 2:
                 # Create edge betwen two nodes
                 src, dst = endpoints
-                network.add_edge(id_per_node[src], id_per_node[dst])
+                if src in id_per_node and dst in id_per_node:
+                    network.add_edge(id_per_node[src], id_per_node[dst])
             elif len(endpoints) > 2:
                 # Create proxy object and connect to it
                 proxy = hash(connection.name)
                 network.add_node(proxy, label=connection.name, shape='text')
                 for node in endpoints:
-                    network.add_edge(id_per_node[node], proxy)
+                    if node in id_per_node:
+                        network.add_edge(id_per_node[node], proxy)
             else:
                 pass
 
