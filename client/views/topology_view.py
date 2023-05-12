@@ -58,24 +58,3 @@ class TopologyView(QWidget):
 
         topology_path = QUrl.fromLocalFile(tolopogy)
         self.web_view.load(topology_path)
-
-
-# nt = Network(height='500px', width='500px')
-# nt.add_node(0, label='node-a')
-# nt.add_node(1, label='node-b')
-# nt.add_edge(0, 1)
-
-# nt.toggle_buttons(False)
-
-# nt.set_template(os.path.join(os.getcwd(), 'client',
-#                 'html', 'topology_template.html'))
-
-# tolopogy = os.path.join(os.getcwd(), 'client', 'html', 'topology.html')
-# nt.save_graph(tolopogy)
-
-# app = QApplication(sys.argv)
-# browser = QWebEngineView()
-
-# topology_path = QUrl.fromLocalFile(tolopogy)
-# browser.load(topology_path)
-# browser.show()
