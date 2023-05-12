@@ -5,11 +5,9 @@ import client.data.model as model
 from client.data.objects import Connection
 from client.views.connection_settings import ConnectionSettings
 
-from PyQt5 import QtCore, QtGui, uic
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtWidgets import QWidget
+from PyQt5 import uic
+from PyQt5.QtGui import QStandardItem, QStandardItemModel
+from PyQt5.QtWidgets import QDialog, QListView, QPushButton, QWidget
 
 
 class ConnectionsList(QDialog):
@@ -41,7 +39,7 @@ class ConnectionsList(QDialog):
         index = self.connections_list.currentIndex().row()
         if index == -1:
             return
-            
+
         edited = deepcopy(self.connections[index])
         if ConnectionSettings(self, edited).exec() == 1:
             self.connections[index] = edited

@@ -1,8 +1,6 @@
 import typing
-from PyQt5 import QtCore, uic
-from PyQt5.QtWidgets import *
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtCore import Qt
+from PyQt5 import uic
+from PyQt5.QtWidgets import QWidget, QDialog
 
 import client.data.settings as settings
 

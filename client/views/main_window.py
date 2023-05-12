@@ -1,19 +1,20 @@
 import json
 from copy import deepcopy
 
-import requests
-from PyQt5 import uic
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-
 import client.data.model as model
 import client.data.settings as settings
+import requests
 from client.socketio_client import SocketioClient
 from client.views.connection_list import ConnectionsList
 from client.views.model_settings import ModelSettings
 from client.views.node_list import NodeList
 from client.views.remote_diag import RemoteDiag
+from client.views.topology_view import TopologyView
 from client.views.tracers_list import TracersList
+
+from PyQt5 import QtCore, uic
+from PyQt5.QtWidgets import (QAction, QFrame, QMainWindow, QTextBrowser,
+                             QVBoxLayout, QMessageBox)
 
 
 class MainWindow(QMainWindow):
@@ -26,6 +27,7 @@ class MainWindow(QMainWindow):
     tracers_button: QAction
     stop_button: QAction
     run_button: QAction
+    topology_window: QFrame
 
     def __init__(self, websocket: SocketioClient) -> None:
         super().__init__()
@@ -50,6 +52,13 @@ class MainWindow(QMainWindow):
         self.stop_button.triggered.connect(self.send_stop)
         self.run_button.triggered.connect(self.send_model)
 
+        self.topology_window.setLayout(QVBoxLayout())
+        self.topology_window.layout().setContentsMargins(QtCore.QMargins(0, 0, 0, 0))
+
+        self.topology_view = TopologyView()
+        self.topology_window.layout().addWidget(self.topology_view)
+        self.topology_view.update_topology()
+
     def on_remotes_button(self):
         diag = RemoteDiag(self)
         diag.accepted.connect(self.reconnect)
@@ -57,6 +66,7 @@ class MainWindow(QMainWindow):
 
     def on_nodes_button(self):
         NodeList(self).exec()
+        self.topology_view.update_topology()
 
     def _on_receive(self, data):
         data = json.loads(data)
@@ -101,6 +111,7 @@ class MainWindow(QMainWindow):
         edited = deepcopy(model.current_model.connections)
         if ConnectionsList(self, edited).exec() == 1:
             model.current_model.connections = edited
+            self.topology_view.update_topology()
 
     def export_model(self):
         file, _ = QFileDialog.getSaveFileName(self, 'Save File', filter='.xml')

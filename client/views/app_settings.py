@@ -4,8 +4,7 @@ from typing import List
 from client.data.objects import Application
 from PyQt5 import QtCore, QtGui, uic
 from PyQt5.QtCore import QAbstractTableModel, Qt
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QDialog, QLineEdit, QHeaderView
 from PyQt5.QtWidgets import QWidget
 
 from client.views.attributes_model import AttributesModel
@@ -15,7 +14,6 @@ from client.data.objects import Address
 class ApplicationsSettings(QDialog):
     name_edit: QLineEdit
     type_edit: QLineEdit
-
 
     def __init__(self, parent: QtCore.QObject, editable: Application):
         super().__init__(parent)
@@ -50,9 +48,9 @@ class ApplicationsSettings(QDialog):
                 self.editable.attributes, self
             )
         )
-    
+
     def on_update_name(self, name):
-      self.editable.name = name.strip()
-    
+        self.editable.name = name.strip()
+
     def on_update_type(self, type):
-      self.editable.type = type.strip()
+        self.editable.type = type.strip()

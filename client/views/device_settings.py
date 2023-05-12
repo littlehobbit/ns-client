@@ -1,15 +1,13 @@
 from copy import deepcopy
 from typing import List
 
-from client.data.objects import Device
-from PyQt5 import QtCore, QtGui, uic
-from PyQt5.QtCore import QAbstractTableModel, Qt
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtWidgets import QWidget
-
+from client.data.objects import Address, Device
 from client.views.attributes_model import AttributesModel
-from client.data.objects import Address
+
+from PyQt5 import uic
+from PyQt5.QtCore import QAbstractTableModel, Qt
+from PyQt5.QtWidgets import (QComboBox, QDialog, QHeaderView, QLineEdit,
+                             QTableView, QWidget)
 
 
 class AddressModel(QAbstractTableModel):

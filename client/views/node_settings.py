@@ -1,17 +1,16 @@
+from copy import deepcopy
 from typing import List
 
-from PyQt5 import QtCore, QtGui, uic
-from PyQt5.QtCore import QAbstractTableModel, QObject, Qt
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtWidgets import QWidget
-
 import client.data.model as model
-from client.data.objects import Node, Route, Device, Application
-from client.views.device_settings import DeviceSettings
+from client.data.objects import Application, Device, Node, Route
 from client.views.app_settings import ApplicationsSettings
+from client.views.device_settings import DeviceSettings
 
-from copy import deepcopy
+from PyQt5 import uic
+from PyQt5.QtCore import QAbstractTableModel, QObject, Qt
+from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt5.QtWidgets import (QDialog, QHeaderView, QLineEdit, QListView,
+                             QTableView, QWidget)
 
 
 class RoutesTableModel(QAbstractTableModel):

@@ -3,14 +3,12 @@ from typing import List
 
 import client.data.model as model
 from client.data.objects import Register
-
-from PyQt5 import QtCore, QtGui, uic
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtWidgets import QWidget
-
 from client.views.tracer_settings import TracerSettings
+
+from PyQt5 import uic
+from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt5.QtWidgets import QWidget, QDialog, QListView, QPushButton
+
 
 class TracersList(QDialog):
     tracers_list: QListView

@@ -5,11 +5,10 @@ from typing import List
 import client.data.model as model
 from client.data.objects import Node
 from client.views.node_settings import NodeSettings
-from PyQt5 import QtCore, QtGui, uic
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtWidgets import QWidget
+
+from PyQt5 import uic
+from PyQt5.QtGui import QStandardItemModel, QStandardItem
+from PyQt5.QtWidgets import QWidget, QDialog, QPushButton, QListView
 
 
 class NodeList(QDialog):
@@ -49,7 +48,7 @@ class NodeList(QDialog):
         id = self.list_view.currentIndex().row()
         if id == -1:
             return
-        
+
         edited = deepcopy(self.nodes_list[id])
         if NodeSettings(self, edited).exec() == 1:
             self.nodes_list[id] = edited

@@ -1,11 +1,7 @@
-from client.data.objects import Application
-from PyQt5 import QtCore, QtGui, uic
-from PyQt5.QtCore import QAbstractTableModel, Qt
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtWidgets import QWidget
+from client.data.objects import Application, Precision
 
-from client.data.objects import Precision
+from PyQt5 import uic
+from PyQt5.QtWidgets import QComboBox, QDialog, QLineEdit, QWidget
 
 
 class ModelSettings(QDialog):
