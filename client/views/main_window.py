@@ -14,7 +14,7 @@ from client.views.tracers_list import TracersList
 
 from PyQt5 import QtCore, uic
 from PyQt5.QtWidgets import (QAction, QFrame, QMainWindow, QTextBrowser,
-                             QVBoxLayout, QMessageBox)
+                             QVBoxLayout, QMessageBox, QFileDialog)
 
 
 class MainWindow(QMainWindow):
