@@ -59,7 +59,7 @@ class DeviceSettings(QDialog):
         self.name_edit.setText(self.editable.name)
         self.name_edit.textChanged.connect(self.update_device_name)
 
-        self.type_combo.addItems(['Csma', 'PPP'])
+        self.type_combo.addItems(['Csma', 'Ppp'])
         if self.editable.type != '':
             self.type_combo.setCurrentText(self.editable.type)
         self.type_combo.currentIndexChanged.connect(self.update_device_type)

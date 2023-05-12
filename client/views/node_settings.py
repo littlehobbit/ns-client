@@ -141,7 +141,7 @@ class NodeSettings(QDialog):
             self.update_device_list()
 
     def on_add_device(self):
-        new_device = Device('', '', [], [], [])
+        new_device = Device('eth', 'Csma', [], [], [])
         if DeviceSettings(self, new_device).exec() == 1:
             self.editable_node.devices.append(new_device)
             self.update_device_list()

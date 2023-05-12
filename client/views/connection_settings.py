@@ -66,7 +66,7 @@ class ConnectionSettings(QDialog):
 
         self.editable = editable
 
-        self.type_combo.addItems(['Csma', 'PPP'])
+        self.type_combo.addItems(['Csma', 'Ppp'])
         self.type_combo.setCurrentText(editable.type)
         self.type_combo.currentTextChanged.connect(self.on_change_type)
 
