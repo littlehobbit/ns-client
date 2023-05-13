@@ -1,15 +1,17 @@
-from copy import deepcopy
-from typing import List
-
-import client.data.model as model
-from client.data.objects import Register
-
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget, QLineEdit, QComboBox, QDialog
+from PyQt5.QtWidgets import QComboBox, QDialog, QLineEdit, QWidget
+
+from client.data.objects import Register
 
 
 class TracerSettings(QDialog):
+    """ Tracer settings dialog 
+
+    This dialog allow set tracer's settings: value, type, source, 
+    file, start, end and sink
+    """
+
     value_edit: QLineEdit
     type_combo: QComboBox
     source_edit: QLineEdit

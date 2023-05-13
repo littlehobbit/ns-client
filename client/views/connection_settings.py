@@ -12,6 +12,8 @@ from PyQt5.QtWidgets import (QComboBox, QDialog, QHeaderView, QLineEdit,
 
 
 class InterfaceModel(QAbstractListModel):
+    """ List model for view/edit interfacew """
+
     def __init__(self, parent: QObject, interfaces: List[str]) -> None:
         super().__init__(parent)
         self.interfaces = interfaces
@@ -34,6 +36,8 @@ class InterfaceModel(QAbstractListModel):
 
 
 class QComboBoxDelegate(QStyledItemDelegate):
+    """ Combo box delecate to picking existing interfaces """
+
     def createEditor(self, parent, option, index):
         value = index.data(Qt.EditRole)
 
@@ -53,6 +57,8 @@ class QComboBoxDelegate(QStyledItemDelegate):
 
 
 class ConnectionSettings(QDialog):
+    """ Connection settings dialog """
+
     editable: Connection
     name_edit: QLineEdit
     type_combo: QComboBox

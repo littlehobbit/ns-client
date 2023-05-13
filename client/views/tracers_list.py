@@ -1,16 +1,19 @@
 from copy import deepcopy
 from typing import List
 
-import client.data.model as model
+from PyQt5 import uic
+from PyQt5.QtGui import QStandardItem, QStandardItemModel
+from PyQt5.QtWidgets import QDialog, QListView, QPushButton, QWidget
+
 from client.data.objects import Register
 from client.views.tracer_settings import TracerSettings
 
-from PyQt5 import uic
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
-from PyQt5.QtWidgets import QWidget, QDialog, QListView, QPushButton
-
 
 class TracersList(QDialog):
+    """ List of tracers dialog 
+
+    This dialog allow add/edit/delete tracers
+    """
     tracers_list: QListView
     add_tracer: QPushButton
     delete_tracer: QPushButton

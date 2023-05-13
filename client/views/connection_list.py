@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import QDialog, QListView, QPushButton, QWidget
 
 
 class ConnectionsList(QDialog):
+    """ Connections list dialog """
     add_connection: QPushButton
     edit_connection: QPushButton
     delete_connection: QPushButton

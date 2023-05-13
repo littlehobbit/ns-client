@@ -3,7 +3,7 @@ from client.data.objects import Attributes
 
 
 class AttributesModel(QAbstractTableModel):
-
+    """ Table model for view/edit attributes """
     def __init__(self, attributes: Attributes, parent: QObject) -> None:
         super().__init__(parent)
         self.attributes = attributes

@@ -1,4 +1,3 @@
-import typing
 from PyQt5 import uic
 from PyQt5.QtWidgets import QWidget, QDialog
 
@@ -6,6 +5,8 @@ import client.data.settings as settings
 
 
 class RemoteDiag(QDialog):
+    """ Dialog for setting server url """
+
     def __init__(self, parent: QWidget) -> None:
         super().__init__(parent)
 

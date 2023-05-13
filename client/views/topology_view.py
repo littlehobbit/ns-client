@@ -1,19 +1,23 @@
 import os
-import sys
 
-import client.data.model as model
-from PyQt5.QtCore import QMargins
+from PyQt5.QtCore import QMargins, QUrl
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QVBoxLayout, QWidget
 from pyvis.network import Network
-from PyQt5.QtGui import QResizeEvent
-from PyQt5.QtCore import QUrl
+
+import client.data.model as model
 
 
 class TopologyView(QWidget):
+    """ Topology widget based on pyvis and QWebEngine """
+
     web_view: QWebEngineView
 
     def __init__(self, *args):
+        """ Object constructor
+
+        :param args: list of args passed to parent class `QWidget`
+        """
         super().__init__(*args)
         self.web_view = QWebEngineView(self)
 

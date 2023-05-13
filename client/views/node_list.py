@@ -1,17 +1,21 @@
-import typing
 from copy import deepcopy
 from typing import List
+
+from PyQt5 import uic
+from PyQt5.QtGui import QStandardItem, QStandardItemModel
+from PyQt5.QtWidgets import QDialog, QListView, QPushButton, QWidget
 
 import client.data.model as model
 from client.data.objects import Node
 from client.views.node_settings import NodeSettings
 
-from PyQt5 import uic
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
-from PyQt5.QtWidgets import QWidget, QDialog, QPushButton, QListView
-
 
 class NodeList(QDialog):
+    """ List of nodes dialog
+
+    Allow add/edit/delete nodes
+    """
+
     add_button: QPushButton
     edit_button: QPushButton
     delete_button: QPushButton

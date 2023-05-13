@@ -1,10 +1,14 @@
-from client.data.objects import Application, Precision
-
 from PyQt5 import uic
-from PyQt5.QtWidgets import QComboBox, QDialog, QLineEdit, QWidget
+from PyQt5.QtWidgets import QComboBox, QDialog, QLineEdit
+
+from client.data.objects import Precision
 
 
 class ModelSettings(QDialog):
+    """ Model settings dialog
+
+    Allow set model name, duration and time precision
+    """
     name_edit: QLineEdit
     duration_edit: QLineEdit
     time_combo: QComboBox

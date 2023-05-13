@@ -1,19 +1,20 @@
 from copy import deepcopy
 from typing import List
 
-import client.data.model as model
+from PyQt5 import uic
+from PyQt5.QtCore import QAbstractTableModel, QObject, Qt
+from PyQt5.QtGui import QStandardItem, QStandardItemModel
+from PyQt5.QtWidgets import (QDialog, QHeaderView, QLineEdit, QListView,
+                             QTableView, QWidget)
+
 from client.data.objects import Application, Device, Node, Route
 from client.views.app_settings import ApplicationsSettings
 from client.views.device_settings import DeviceSettings
 
-from PyQt5 import uic
-from PyQt5.QtCore import QAbstractTableModel, QObject, Qt
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
-from PyQt5.QtWidgets import (QDialog, QHeaderView, QLineEdit, QListView,
-                             QTableView, QWidget)
-
 
 class RoutesTableModel(QAbstractTableModel):
+    """ Table model for node's routes """
+
     ipv4_header = ('net', 'mask', 'dst', 'metric')
     ipv6_header = ('net', 'prefix', 'dst', 'metric')
 
@@ -68,6 +69,10 @@ class RoutesTableModel(QAbstractTableModel):
 
 
 class NodeSettings(QDialog):
+    """ Node settings dialog 
+
+    This dialog allow set node parameters, accept them or discard
+    """
     name_edit: QLineEdit
     device_list: QListView
     ipv4_routes: QTableView

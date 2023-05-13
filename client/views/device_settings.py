@@ -11,6 +11,8 @@ from PyQt5.QtWidgets import (QComboBox, QDialog, QHeaderView, QLineEdit,
 
 
 class AddressModel(QAbstractTableModel):
+    """ Table model for view/edit device addresses """
+
     def __init__(self, parent, addresses: List[Address], is_ipv6: bool = False):
         super().__init__(parent)
 
@@ -45,6 +47,11 @@ class AddressModel(QAbstractTableModel):
 
 
 class DeviceSettings(QDialog):
+    """ Device settings dialog
+
+    Allow set device parameters, apply and discard
+    """
+
     editable: Device
     name_edit: QLineEdit
     type_combo: QComboBox

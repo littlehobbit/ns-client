@@ -1,9 +1,13 @@
 import json
 from copy import deepcopy
 
+import requests
+from PyQt5 import QtCore, uic
+from PyQt5.QtWidgets import (QAction, QFileDialog, QFrame, QMainWindow,
+                             QMessageBox, QTextBrowser, QVBoxLayout)
+
 import client.data.model as model
 import client.data.settings as settings
-import requests
 from client.socketio_client import SocketioClient
 from client.views.connection_list import ConnectionsList
 from client.views.model_settings import ModelSettings
@@ -11,10 +15,6 @@ from client.views.node_list import NodeList
 from client.views.remote_diag import RemoteDiag
 from client.views.topology_view import TopologyView
 from client.views.tracers_list import TracersList
-
-from PyQt5 import QtCore, uic
-from PyQt5.QtWidgets import (QAction, QFrame, QMainWindow, QTextBrowser,
-                             QVBoxLayout, QMessageBox, QFileDialog)
 
 
 class MainWindow(QMainWindow):

@@ -12,6 +12,10 @@ from client.data.objects import Address
 
 
 class ApplicationsSettings(QDialog):
+    """ Application settings dialog
+    
+    This dialog allow set app's name, type and attributes
+    """
     name_edit: QLineEdit
     type_edit: QLineEdit
 
