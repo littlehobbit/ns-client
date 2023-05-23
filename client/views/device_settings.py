@@ -19,7 +19,7 @@ class AddressModel(QAbstractTableModel):
         self.addresses = addresses
         self.is_ipv6 = is_ipv6
         self.header = ('address', 'prefix') if is_ipv6 else (
-            'address', 'netmap')
+            'address', 'netmask')
 
     def headerData(self, section, orientation, role):
         if role == Qt.DisplayRole:

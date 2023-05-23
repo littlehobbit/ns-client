@@ -31,7 +31,7 @@ class ConnectionsList(QDialog):
         self.update_list()
 
     def on_add(self):
-        new_connection = Connection('new-connection', '', [], [])
+        new_connection = Connection('new-connection', 'Csma', [], [])
         if ConnectionSettings(self, new_connection).exec() == 1:
             self.connections.append(new_connection)
             self.update_list()
